@@ -1,0 +1,57 @@
+#footer.sticky{position:relative;}
+#content #frame .content{
+  padding:none;
+  padding-bottom:4px;
+}
+.activity{
+  float:left;
+  margin-bottom:4px;
+}
+.activity-user{
+  position:absolute;
+  margin-top:6px;
+  margin-left:6px;
+  z-index:1;
+  background: url(http://forrst.com/assets/images/home/home-takeapeek-icons.png);
+  background-position:80px 50px;
+  background-size: auto 60px;
+  background-repeat: no-repeat;
+  width:60px;
+  height:48px;
+}
+.activity.link .activity-user{background-position:-18px -5px;}
+.activity.snap .activity-user{background-position:-97px -5px;}
+.activity.code .activity-user{background-position:-174px -5px; }
+.activity.question .activity-user{background-position:-255px -5px;}
+.activity-user a{
+  margin-left:40px;
+}
+.activity-inner{
+  height:30px;
+  width:635px;
+  overflow:hidden;
+}
+.activity-inner.open{
+  height:auto;
+}
+.activity-meta{
+  position:absolute;
+  bottom:0px;
+  margin-bottom:0px;
+  margin-left:87px;
+  display:none;
+}
+.activity-inner.open .activity-meta{
+  position:relative;
+  display:block;
+}
+.activity-inner .left{
+  width:100%;
+}
+.activity-inner .right{
+  float:right;;
+}
+.activity-inner h1.title{
+  margin-left:87px;
+  min-height:38px;
+}
