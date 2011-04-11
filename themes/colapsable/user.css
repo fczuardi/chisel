@@ -1,12 +1,14 @@
-#footer.sticky{position:relative;}
-#content #frame .content{
-  padding:none;
-  padding-bottom:4px;
-}
-.activity{
-  float:left;
-  margin-bottom:4px;
-}
+
+/* General tweaks */
+/* ============== */
+
+/* Send Forrst footer to bottom*/
+#footer.sticky{ position:relative; }
+
+/* space between items */
+.activity{ margin-bottom:4px; }
+
+/* modify the user avatar to be wider in order to fit the activity type icon */
 .activity-user{
   position:absolute;
   margin-top:6px;
@@ -16,42 +18,75 @@
   background-position:80px 50px;
   background-size: auto 60px;
   background-repeat: no-repeat;
-  width:60px;
+  width:88px;
   height:48px;
 }
+
+/* different icons use the same sprite but at different positions */
 .activity.link .activity-user{background-position:-18px -5px;}
 .activity.snap .activity-user{background-position:-97px -5px;}
 .activity.code .activity-user{background-position:-174px -5px; }
 .activity.question .activity-user{background-position:-255px -5px;}
-.activity-user a{
-  margin-left:40px;
-}
+
+/* push the avatar and title to the right */
+.activity-user a{ margin-left:40px; }
+.activity-inner h1.title{ padding-left:87px; }
+
+/* larger items since the avatar is now inside the baloon */
 .activity-inner{
-  height:30px;
   width:635px;
   overflow:hidden;
 }
-.activity-inner.open{
-  height:auto;
+
+
+/* Collapsed item */
+/* ============== */
+
+/* no line breaks for the snippet or title */
+.activity.closed *{
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+  overflow:hidden;
 }
-.activity-meta{
+
+/* set the height of a collapsed item */
+.activity.closed .activity-inner{ height:30px; }
+
+/* make the title and snippet fill the whole width since the heart button is not visible */
+.activity.closed .activity-inner .left{ width:100%; }
+
+/* hide the author and time when item collapsed */
+.activity.closed .activity-meta{ display:none; }
+
+/* hide images links and subtitles when collapsed */
+.activity.closed .activity-inner .snap,
+.activity.closed .activity-inner .code,
+.activity.closed .activity-inner img,
+.activity.closed .activity-inner h2,
+.activity.closed .activity-inner .right{ display:none; }
+
+/* bring the description up to serve as a snippet */
+.activity.closed .activity-inner .description,
+.activity.closed .activity-inner .question{
   position:absolute;
-  bottom:0px;
+  top:22px;
+  margin-left:90px;
+  width:550px;
+}
+
+/* remove linebreaks to fit more text and change color */
+.activity.closed .activity-inner .post .description p,
+.activity.closed .activity-inner .post .question p{
+  display:inline;
+  font-size:10px;
+  color:#aaa;
+}
+
+
+/* Expanded item */
+/* ============= */
+.activity.open .activity-inner .activity-meta{
   margin-bottom:0px;
-  margin-left:87px;
-  display:none;
+  margin-left:87px;  
 }
-.activity-inner.open .activity-meta{
-  position:relative;
-  display:block;
-}
-.activity-inner .left{
-  width:100%;
-}
-.activity-inner .right{
-  float:right;;
-}
-.activity-inner h1.title{
-  margin-left:87px;
-  min-height:38px;
-}
+.activity.open .activity-inner .right{ float:right; }
