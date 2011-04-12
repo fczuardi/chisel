@@ -1,4 +1,6 @@
 # Chisel
+* option to generate html pages for the themes
+* bash script to update gh-pages
 * use the matches info of the manifest file to only apply if on that page
 
 # colapsable-forrst
