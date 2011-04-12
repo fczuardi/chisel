@@ -1,0 +1,9 @@
+[submodule "node_modules/node-arguments"]
+	path = node_modules/node-arguments
+	url = git://github.com/fczuardi/node-arguments.git
+[submodule "node_modules/node-css-compressor"]
+	path = node_modules/node-css-compressor
+	url = git://github.com/fczuardi/node-css-compressor.git
+[submodule "node_modules/uglify-js"]
+	path = node_modules/uglify-js
+	url = git@github.com:mishoo/UglifyJS.git
