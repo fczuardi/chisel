@@ -10,9 +10,6 @@ function tweakUpdates(){
       $(this).addClass('closed');
       $(this).click(function(e) {
         $(this).toggleClass('open closed');
-        if ($(this).hasClass('closed')){
-          $(document).scrollTop($(this).offset().top);
-        }
       });
     }
   });
