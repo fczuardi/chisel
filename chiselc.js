@@ -7,7 +7,7 @@ var  config = require('./config/setup')
     ,path = require('path')
     ,sys = require("sys")
     ,exec  = require('child_process').exec
-    ,cssmin = require('yuicompressor/ports/js/cssmin').cssmin
+    ,cssmin = require('node-css-compressor').cssmin
     ,uglify = require("uglify-js");
 
 // sys.print('\x1B[0;0H');
