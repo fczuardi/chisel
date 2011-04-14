@@ -120,21 +120,25 @@ function writeBookmarklets(callback, err){
       ,compressedBookmarklet = ''
       ,themeBuildPath = path.join(config.DEFAULT_BUILD_PATH, config.options.theme);
   if (err) return(console.log(err));
+  
   //regular bookmarklet
-  bookmarklet = templates.bookmarklet.data.
+  // switch // coments with /* */
+  js = js.replace(/(\/\/([^\n]*)\n)/g, '\/*$2*\/\n');
+  bookmarklet = urlProtocol + ':' + templates.bookmarklet.data.
                                        replace('{{CSS_CODE}}', css).
-                                       replace('{{JS_CODE}}', js);
+                                       replace('{{JS_CODE}}', js.replace(/\n/g, '\"\n + \"'));
   //compressed bookmarklet
   compressedCss = cssmin(css);
   compressedJs = uglifyScript(js).replace(/\"/g,"\\\"");
   compressedTemplate = uglifyScript(templates.bookmarklet.data); 
-  compressedBookmarklet = compressedTemplate.
+  compressedBookmarklet = urlProtocol + ':' + compressedTemplate.
                             replace('{{CSS_CODE}}', compressedCss).
                             replace('{{JS_CODE}}', compressedJs);
+
   //send compressed version to clipboard
   if (config.options.clipboard){
     exec( 'echo "$CONTENTS" | pbcopy', 
-          {env:{'CONTENTS':urlProtocol + ':' + compressedBookmarklet}},
+          {env:{'CONTENTS':compressedBookmarklet}},
           function (error, stdout, stderr) {
             if (error !== null) {
               console.log('Error sending bookmarklet to clipboard: ' + error);
@@ -148,7 +152,7 @@ function writeBookmarklets(callback, err){
     console.log('---\nTheme: %s v%s', manifest.name, manifest.version);
     console.log('Description: %s', manifest.description+'\n---');
     console.log("\n--BOOKMARKLET CODE--");
-    console.log(urlProtocol + ':' + compressedBookmarklet);
+    console.log(compressedBookmarklet);
     console.log("\n--BOOKMARKLET CODE END--");
   }
 
