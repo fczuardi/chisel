@@ -6,10 +6,10 @@ this.options = {
 };
 
 //= Constants
-this.DEFAULT_BUILD_PATH = "./builds";
-this.DEFAULT_THEMES_PATH = "./themes";
-this.DEFAULT_BOOKMARKLET_TEMPLATE = "./templates/bookmarklet_template.js";
-this.DEFAULT_INSTALL_PAGE_TEMPLATE = "./templates/install_page.html";
+this.DEFAULT_BUILD_PATH = "../builds";
+this.DEFAULT_THEMES_PATH = "../themes";
+this.DEFAULT_BOOKMARKLET_TEMPLATE = "../templates/bookmarklet_template.js";
+this.DEFAULT_INSTALL_PAGE_TEMPLATE = "../templates/install_page.html";
 this.SCRIPT_SOURCE_CODE_URL = "https://github.com/fczuardi/chisel";
 this.SCRIPT_NAME = 'Chisel Compiler';
 this.VERSION = '0.1';
