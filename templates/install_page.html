@@ -1,0 +1,28 @@
+<html>
+<head>
+  <style>
+table,
+textarea{
+  width:100%;
+  height:100%;
+}
+tbody{
+  height:95%;
+}
+  </style>
+</head>
+<body>
+  <table width="100%">
+    <thead>
+      <td><label for="normal-bookmarklet">Bookmarklet code (legible):</label></td>
+      <td><label for="minified-bookmarklet">Bookmarklet code (minified):</label></td>
+    </thead>
+    <tbody>
+      <tr>
+        <td><textarea id="normal-bookmarklet">{{NORMAL_CODE}}</textarea></td>
+        <td><textarea id="minified-bookmarklet">{{MINIFIED_CODE}}</textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

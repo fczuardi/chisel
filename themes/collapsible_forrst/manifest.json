@@ -1,8 +1,8 @@
 {
-  "name": "Colapsable",
+  "name": "Collapsible Forrst",
   "version": "0.2",
 
-  "description": "Turn the items on main post listing pages of Forrst.com (Latest, Popular and Promoted Posts) colapsable on iOS.",
+  "description": "Turn the items on main post listing pages of Forrst.com (Latest, Popular and Promoted Posts) collapsible on iOS.",
   "homepage_url": "http://github.com/fczuardi/chisel",
   "content_scripts": [{
       "matches":[

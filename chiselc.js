@@ -19,14 +19,17 @@ var  options = config.options
     ,manifest = {}
     ,cssData = []
     ,jsData = []
-    ,bookmarkletTemplate = ''
-    ,compressedBookmarklet = ''
-    ,bookmarklet = '';
+    ,templates = {
+       'bookmarklet':{'path':config.DEFAULT_BOOKMARKLET_TEMPLATE, 'data':'{}'}
+      ,'install_page':{'path':config.DEFAULT_INSTALL_PAGE_TEMPLATE, 'data':''}
+     };
 
 //= Functions
 //== loadManifest()
 function loadManifest(callback, err){
-  var manifestPath = path.join(config.DEFAULT_THEMES_PATH, config.options.theme, 'manifest.json');
+  var manifestPath = path.join(config.DEFAULT_THEMES_PATH
+                              ,config.options.theme
+                              ,'manifest.json');
   fs.readFile(manifestPath, 'utf-8', function (err, data) {
     if (err) return callback(err);
     manifestContents = data;
@@ -41,7 +44,10 @@ function loadScripts(callback, err){
       ,cssCount = 0
       ,jsCount = 0
       ,scriptCounter = {'total':0, 'loaded':0}
-      ,scriptGroups = [{'data':cssData,'fileset':[]}, {'data':jsData,'fileset':[]}];
+      ,scriptGroups = [
+         {'data':cssData,'fileset':[]}
+        ,{'data':jsData,'fileset':[]}
+      ];
   if (err) return callback(err);
   try{
     manifest = JSON.parse(manifestContents);
@@ -58,7 +64,8 @@ function loadScripts(callback, err){
     function processGroup(scriptGroup) {
       scriptGroup.fileset.forEach(
         function loadScript(item, index){
-          var scriptPath = path.join(config.DEFAULT_THEMES_PATH, config.options.theme, item);
+          var scriptPath = path.join(config.DEFAULT_THEMES_PATH
+                                    ,config.options.theme, item);
           fs.readFile(scriptPath, 'utf-8', 
             function scriptLoaded(index, group, counter, err, data) {
               if (err) return callback(err);
@@ -75,65 +82,111 @@ function loadScripts(callback, err){
   );
 }
 
-//== loadBookmarkTemplate()
-function loadBookmarkTemplate(callback, err){
+//== loadTemplate()
+function loadTemplate(templateName, callback, err){ 
   if (err) return callback(err);
-  fs.readFile(config.DEFAULT_BOOKMARKLET_TEMPLATE, 'utf-8', 
+  fs.readFile(templates[templateName].path, 'utf-8', 
     function templateLoaded(err, data) {
       if (err) return callback(err);
-      bookmarkletTemplate = data;
+      templates[templateName].data = data;
       callback();
     }
   );
 }
 
+//== loadBookmarkTemplate()
+function loadBookmarkTemplate(callback, err){
+  if (err) return callback(err);
+  loadTemplate('bookmarklet', callback);
+}
+
+function loadInstallPageTemplate(callback, err){
+  if (err) return callback(err);
+  if (config.options.buildpage){
+    loadTemplate('install_page', callback);
+  }else{
+    callback();
+  }
+}
+
 //== writeBookmarklets() 
-function writeBookmarklets(err){
+function writeBookmarklets(callback, err){
   var  urlProtocol = 'javascript'
       ,css = cssData.join('\n')
       ,js = jsData.join('\n')
+      ,bookmarklet
       ,compressedCss = ''
-      ,compressedJs = '';
-      if (err) return(console.log(err));
+      ,compressedJs = ''
+      ,compressedBookmarklet = ''
+      ,themeBuildPath = path.join(config.DEFAULT_BUILD_PATH, config.options.theme);
+  if (err) return(console.log(err));
   //regular bookmarklet
-  bookmarklet = bookmarkletTemplate.replace('{{CSS_CODE}}', css).replace('{{JS_CODE}}', js);
-
+  bookmarklet = templates.bookmarklet.data.
+                                       replace('{{CSS_CODE}}', css).
+                                       replace('{{JS_CODE}}', js);
   //compressed bookmarklet
   compressedCss = cssmin(css);
   compressedJs = uglifyScript(js).replace(/\"/g,"\\\"");
-  compressedTemplate = uglifyScript(bookmarkletTemplate); 
-  compressedBookmarklet = compressedTemplate.replace('{{CSS_CODE}}', compressedCss).replace('{{JS_CODE}}', compressedJs);
-
+  compressedTemplate = uglifyScript(templates.bookmarklet.data); 
+  compressedBookmarklet = compressedTemplate.
+                            replace('{{CSS_CODE}}', compressedCss).
+                            replace('{{JS_CODE}}', compressedJs);
+  //send compressed version to clipboard
   if (config.options.clipboard){
-    //send compressed version to clipboard
-    exec('echo "$CONTENTS"|pbcopy', {env:{'CONTENTS':urlProtocol + ':' + compressedBookmarklet}},
-      function (error, stdout, stderr) {
-        if (error !== null) {
-          console.log('Error sending bookmarklet to clipboard: ' + error);
-        }
-    });
+    exec( 'echo "$CONTENTS" | pbcopy', 
+          {env:{'CONTENTS':urlProtocol + ':' + compressedBookmarklet}},
+          function (error, stdout, stderr) {
+            if (error !== null) {
+              console.log('Error sending bookmarklet to clipboard: ' + error);
+            } else{
+              console.log('[Bookmarklet code copied to clipboard]');
+            }
+          }
+      );
+  } else {
+    //output to screen
+    console.log('---\nTheme: %s v%s', manifest.name, manifest.version);
+    console.log('Description: %s', manifest.description+'\n---');
+    console.log("\n--BOOKMARKLET CODE--");
+    console.log(urlProtocol + ':' + compressedBookmarklet);
+    console.log("\n--BOOKMARKLET CODE END--");
   }
-  console.log('---\nTheme: %s v%s', manifest.name, manifest.version);
-  console.log('Description: %s', manifest.description+'\n---');
-  console.log("\n--BOOKMARKLET CODE--");
-  console.log(urlProtocol + ':' + compressedBookmarklet+"\n");
-  return true;
+
+  //generate install page
+  if (config.options.buildpage){
+    templates.install_page.data = templates.install_page.data.
+                  replace('{{MINIFIED_CODE}}', compressedBookmarklet).
+                  replace('{{NORMAL_CODE}}', bookmarklet);    
+    fs.writeFile(path.join(themeBuildPath, 'index.html')
+                ,templates.install_page.data
+                , function (err) {
+                    if (err) console.log(err);
+                    console.log('[Install page generated]');
+                    callback();
+                  }
+                );
+  } else{
+    callback();
+  }
 }
 
 
 //= Preferences and Help
 //== setPreference()
 function setPreference(prefName, end, prefValue){
-  if (prefName == 'clipboard'){ prefValue = true; }
+  var flags = ['clipboard', 'buildpage'];
+  if (flags.indexOf(prefName) != -1){ prefValue = true; }
   config.options[prefName] = prefValue || config.options[prefName];
   end();
 }
 
 //== printDefaultHeader()
 function printDefaultHeader(){
-  console.log(config.SCRIPT_TITLE);
   if (process.argv.length == 2){
-    console.log(' * Check the HELP page: node '+ __filename.substring(__dirname.length+1, __filename.length) +' --help\n');
+    console.log(config.SCRIPT_TITLE);
+    console.log(' * Check the HELP page: node '
+                + __filename.substring(__dirname.length+1, __filename.length) 
+                +' --help\n');
   }
 }
 
@@ -150,7 +203,8 @@ function printVersion(){
 
 //== invalidArgument()
 function invalidArgument(arg, valueMissing){
-  printAndExit('Error: the argument '+arg+' '+(valueMissing?'expects a value':'is not valid.')+'\n', 1);
+  printAndExit('Error: the argument '+arg+' '
+                +(valueMissing?'expects a value':'is not valid.')+'\n', 1);
 }
 
 
@@ -180,7 +234,9 @@ main = function (){
   loadManifest(
     loadScripts.bind(this,
       loadBookmarkTemplate.bind(this,
-        writeBookmarklets
+        loadInstallPageTemplate.bind(this,
+          writeBookmarklets.bind(this, function(){})
+        )
       )
     )
   );
@@ -190,6 +246,16 @@ main = function (){
 arguments.parse([
      {'name': /^(-h|--help)$/, 'expected': null, 'callback': printHelp}
     ,{'name': /^(--version)$/, 'expected': null, 'callback': printVersion}
-    ,{'name': /^(-c|--clipboard)$/, 'expected': null, 'callback': setPreference.bind(this,'clipboard')}
-    ,{'name': /^(-t|--theme)$/, 'expected': /^.+$/, 'callback': setPreference.bind(this,'theme')}
+    ,{
+       'name': /^(-c|--clipboard)$/, 'expected': null
+      ,'callback': setPreference.bind(this,'clipboard')
+    }
+    ,{
+       'name': /^(-p|--build-page)$/, 'expected': null
+      ,'callback': setPreference.bind(this,'buildpage')
+    }
+    ,{
+       'name': /^(-t|--theme)$/, 'expected': /^.+$/
+      ,'callback': setPreference.bind(this,'theme')
+    }
   ], main, invalidArgument);

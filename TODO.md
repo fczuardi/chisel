@@ -3,7 +3,7 @@
 * bash script to update gh-pages
 * use the matches info of the manifest file to only apply if on that page
 
-# colapsable-forrst
+# collapsible_forrst
 From the [original Forrst post](http://forrst.com/posts/Colapsable_Forrst_Timeline_experimental_mod-L55)
 
 * OK <s>idea: be able to se a short snippet of the text on collapsed items.</s>

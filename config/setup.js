@@ -1,13 +1,15 @@
 //= Default Options
 this.options = { 
-    'theme': 'colapsable'
+    'theme': 'collapsible_forrst'
    ,'clipboard': false
+   ,'buildpage': false
 };
 
 //= Constants
 this.DEFAULT_BUILD_PATH = "./builds";
 this.DEFAULT_THEMES_PATH = "./themes";
 this.DEFAULT_BOOKMARKLET_TEMPLATE = "./templates/bookmarklet_template.js";
+this.DEFAULT_INSTALL_PAGE_TEMPLATE = "./templates/install_page.html";
 this.SCRIPT_SOURCE_CODE_URL = "https://github.com/fczuardi/chisel";
 this.SCRIPT_NAME = 'Chisel Compiler';
 this.VERSION = '0.1';
@@ -30,6 +32,10 @@ this.HELP_TEXT = ''
 + '\t-h/--help:\n'
 + '\t\tPrint this help page.\n'
 + '\n'
++ '\t-p/--build-page:\n'
++ '\t\tGenerates a HTML page containing the bookmarklets under the '
++ this.DEFAULT_BUILD_PATH +'/<themplate name> folder.\n'
++ '\n'
 + '\t-t/--theme:\n'
 + '\t\tThe name of the theme to use. Defaults to "colapsable".\n'
 + '\n'
@@ -37,7 +43,7 @@ this.HELP_TEXT = ''
 + '\t\tPrint the software version and exit.\n'
 + '\n'
 + 'Example:\n'
-+ '\tnode chiselc.js -t colapsable\n'
++ '\tnode chiselc.js -t collapsible_forrst\n'
 + '\n'
 + 'Author:\n'
 + '\tFabricio Campos Zuardi\n'
