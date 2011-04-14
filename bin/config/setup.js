@@ -1,3 +1,5 @@
+var path = require('path');
+
 //= Default Options
 this.options = { 
     'theme': 'collapsible_forrst'
@@ -5,11 +7,14 @@ this.options = {
    ,'buildpage': false
 };
 
+console.log(__dirname);
+console.log(path.join(__dirname, "../../", "themes"));
+
 //= Constants
-this.DEFAULT_BUILD_PATH = "../builds";
-this.DEFAULT_THEMES_PATH = "../themes";
-this.DEFAULT_BOOKMARKLET_TEMPLATE = "../templates/bookmarklet_template.js";
-this.DEFAULT_INSTALL_PAGE_TEMPLATE = "../templates/install_page.html";
+this.DEFAULT_BUILD_PATH = path.join(__dirname, "../../", "builds");
+this.DEFAULT_THEMES_PATH = path.join(__dirname, "../../", "themes");
+this.DEFAULT_BOOKMARKLET_TEMPLATE = path.join(__dirname, "../../", "templates/bookmarklet_template.js");
+this.DEFAULT_INSTALL_PAGE_TEMPLATE = path.join(__dirname, "../../", "templates/install_page.html");
 this.SCRIPT_SOURCE_CODE_URL = "https://github.com/fczuardi/chisel";
 this.SCRIPT_NAME = 'Chisel Compiler';
 this.VERSION = '0.1';
