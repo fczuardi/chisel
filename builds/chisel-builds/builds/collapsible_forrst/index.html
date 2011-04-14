@@ -1,0 +1,165 @@
+<html>
+<head>
+  <style>
+table,
+textarea{
+  width:100%;
+  height:100%;
+}
+tbody{
+  height:95%;
+}
+  </style>
+</head>
+<body>
+  <table width="100%">
+    <thead>
+      <td><label for="normal-bookmarklet">Bookmarklet code (legible):</label></td>
+      <td><label for="minified-bookmarklet">Bookmarklet code (minified):</label></td>
+    </thead>
+    <tbody>
+      <tr>
+        <td><textarea id="normal-bookmarklet">(function() {
+  var css_url,js_url,new_link,new_script;
+  css_url = "data:text/css,
+/* General tweaks */
+/* ============== */
+
+/* Send Forrst footer to bottom*/
+#footer.sticky{ position:relative; }
+
+/* space between items */
+.activity{ margin-bottom:4px; }
+
+/* modify the user avatar to be wider in order to fit the activity type icon */
+.activity-user{
+  position:absolute;
+  margin-top:6px;
+  margin-left:6px;
+  z-index:1;
+  background: url(http://forrst.com/assets/images/home/home-takeapeek-icons.png);
+  background-position:80px 50px;
+  background-size: auto 60px;
+  background-repeat: no-repeat;
+  width:88px;
+  height:48px;
+}
+
+/* different icons use the same sprite but at different positions */
+.activity.link .activity-user{background-position:-18px -5px;}
+.activity.snap .activity-user{background-position:-97px -5px;}
+.activity.code .activity-user{background-position:-174px -5px; }
+.activity.question .activity-user{background-position:-255px -5px;}
+
+/* push the avatar and title to the right */
+.activity-user a{ margin-left:40px; }
+.activity-inner h1.title{ padding-left:87px; }
+
+/* larger items since the avatar is now inside the baloon */
+.activity-inner{
+  width:635px;
+  overflow:hidden;
+}
+
+
+/* Collapsed item */
+/* ============== */
+
+/* no line breaks for the snippet or title */
+.activity.closed *{
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+  overflow:hidden;
+}
+
+/* set the height of a collapsed item */
+.activity.closed .activity-inner{ height:30px; }
+
+/* make the title and snippet fill the whole width since the heart button is not visible */
+.activity.closed .activity-inner .left{ width:100%; }
+
+/* hide the author and time when item collapsed */
+.activity.closed .activity-meta{ display:none; }
+
+/* hide images links and subtitles when collapsed */
+.activity.closed .activity-inner .snap,
+.activity.closed .activity-inner .code,
+.activity.closed .activity-inner img,
+.activity.closed .activity-inner h2,
+.activity.closed .activity-inner .right{ display:none; }
+
+/* bring the description up to serve as a snippet */
+.activity.closed .activity-inner .description,
+.activity.closed .activity-inner .question{
+  position:absolute;
+  top:22px;
+  margin-left:90px;
+  width:550px;
+}
+
+/* remove linebreaks to fit more text and change color */
+.activity.closed .activity-inner .post .description p,
+.activity.closed .activity-inner .post .question p{
+  display:inline;
+  font-size:13px;
+  color:#aaa;
+}
+
+
+/* Expanded item */
+/* ============= */
+.activity.open .activity-inner .activity-meta{
+  margin-bottom:0px;
+  margin-left:87px;  
+}
+.activity.open .activity-inner .right{ float:right; }";
+  js_url = "data:text/javascript,function tweakUpdates(){
+  $('.activity').each(function(i){
+    if (! $(this).hasClass('tweaked')) { 
+      $(this).addClass('tweaked');
+      var classname = '';
+      try{
+        classname = $(this).children('.activity-inner').children('.activity-meta').children().last().html().substring(2);
+      } catch(e){}
+      $(this).addClass(classname);
+      $(this).addClass('closed');
+      $(this).click(function(e) {
+        $(this).toggleClass('open closed');
+      });
+    }
+  });
+}
+function init(){
+  // Forrst.applyLibs is the function that the page call when the DOM is ready
+  // and after every new pagination is loaded, so we extend it and use as the
+  // hook to run the custom modifications (tweakUpdates).
+  // If the Forrst object is not present, it means that the Forrst javascript 
+  //is not loaded yet, so we wait for 2 secconds before trying again.
+  if (typeof Forrst != 'undefined') {
+    applyLibsCopy = Forrst.applyLibs;
+    extendedApplyLibs = function(){
+      applyLibsCopy();
+      tweakUpdates();
+    };
+    Forrst.applyLibs = extendedApplyLibs;
+    tweakUpdates();
+  }else{
+    setTimeout(init, 1000 * 2);
+  }
+}
+init();";
+  new_link = document.createElement('link');
+  new_link.rel = 'stylesheet';
+  new_link.href = css_url;
+  document.getElementsByTagName('head')[0].appendChild(new_link);
+  new_script = document.createElement('script');
+  new_script.type = 'text/javascript';
+  new_script.src = js_url;
+  document.body.appendChild(new_script);
+})();</textarea></td>
+        <td><textarea id="minified-bookmarklet">(function(){var a,b,c,d;a="data:text/css,#footer.sticky{position:relative}.activity{margin-bottom:4px}.activity-user{position:absolute;margin-top:6px;margin-left:6px;z-index:1;background:url(http://forrst.com/assets/images/home/home-takeapeek-icons.png);background-position:80px 50px;background-size:auto 60px;background-repeat:no-repeat;width:88px;height:48px}.activity.link .activity-user{background-position:-18px -5px}.activity.snap .activity-user{background-position:-97px -5px}.activity.code .activity-user{background-position:-174px -5px}.activity.question .activity-user{background-position:-255px -5px}.activity-user a{margin-left:40px}.activity-inner h1.title{padding-left:87px}.activity-inner{width:635px;overflow:hidden}.activity.closed *{white-space:nowrap!important;text-overflow:ellipsis!important;overflow:hidden}.activity.closed .activity-inner{height:30px}.activity.closed .activity-inner .left{width:100%}.activity.closed .activity-meta{display:none}.activity.closed .activity-inner .snap,.activity.closed .activity-inner .code,.activity.closed .activity-inner img,.activity.closed .activity-inner h2,.activity.closed .activity-inner .right{display:none}.activity.closed .activity-inner .description,.activity.closed .activity-inner .question{position:absolute;top:22px;margin-left:90px;width:550px}.activity.closed .activity-inner .post .description p,.activity.closed .activity-inner .post .question p{display:inline;font-size:13px;color:#aaa}.activity.open .activity-inner .activity-meta{margin-bottom:0;margin-left:87px}.activity.open .activity-inner .right{float:right}",b="data:text/javascript,function b(){typeof Forrst!=\"undefined\"?(applyLibsCopy=Forrst.applyLibs,extendedApplyLibs=function(){applyLibsCopy(),a()},Forrst.applyLibs=extendedApplyLibs,a()):setTimeout(b,2e3)}function a(){$(\".activity\").each(function(a){if(!$(this).hasClass(\"tweaked\")){$(this).addClass(\"tweaked\");var b=\"\";try{b=$(this).children(\".activity-inner\").children(\".activity-meta\").children().last().html().substring(2)}catch(c){}$(this).addClass(b),$(this).addClass(\"closed\"),$(this).click(function(a){$(this).toggleClass(\"open closed\")})}})}b()",c=document.createElement("link"),c.rel="stylesheet",c.href=a,document.getElementsByTagName("head")[0].appendChild(c),d=document.createElement("script"),d.type="text/javascript",d.src=b,document.body.appendChild(d)})()</textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
