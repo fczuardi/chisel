@@ -1,0 +1,178 @@
+<html>
+<head>
+  <style>
+table,
+textarea{
+  width:100%;
+  height:100%;
+}
+tbody{
+  height:95%;
+}
+  </style>
+</head>
+<body>
+  <table width="100%">
+    <thead>
+      <td><label for="normal-bookmarklet">Bookmarklet code (legible):</label></td>
+      <td><label for="minified-bookmarklet">Bookmarklet code (minified):</label></td>
+    </thead>
+    <tbody>
+      <tr>
+        <td><textarea id="normal-bookmarklet">javascript:(function() {
+  var css_url,js_url,new_link,new_script;
+  css_url = "data:text/css,#content {
+  padding: 0px 0px 0px;
+  background-image: none;
+  background-color: #222;
+}
+.container_12{
+  width: 100%;
+}
+#content #main-col {
+  width: 690px;
+}
+#post-landing {
+  margin-top: 0px;
+}
+.m4son.masoned{
+  height:auto !important;
+}
+.box{
+  position: relative !important;
+  left: 0px !important;
+  top: 0px !important;
+}
+.m4son .box{
+  width: 226px;
+  height:226px;
+  overflow: hidden;
+  text-align: center;
+  margin: 2px;
+}
+.m4son .box .snap-post {
+  padding: 0;
+  width: 200%;
+  margin-left: -50%;
+  height: 100%;
+}
+.snap-post .img {
+  height: 100%;
+}
+.snap-post .img img {
+  float: none;
+  max-width: none;
+  min-height: 100%;
+  min-width: 50%;
+}
+.post.content{
+  display:none;
+}
+#post-landing .clearfix{
+  position: absolute;
+}
+
+.clearfix.lightbox {
+    background-color: black;
+    height: 100%;
+    opacity: 0.8;
+    top: 0;
+    width: 100%;
+    z-index: 20;
+}
+.m4son .box.tweaked {
+  transition: left 0.5s ease-out;
+  -moz-transition: left 0.5s ease-out;
+  -webkit-transition: left 0.5s ease-out;
+}
+.m4son .box.selected {
+    overflow: visible;
+    z-index: 21;
+    left: 20% !important;
+/*    top: 10px !important;*/
+}
+.m4son .box.selected.col-2 {
+  left: 2% !important;
+}
+.m4son .box.selected.col-3 {
+  left: -20% !important;
+}
+.m4son .box.selected .snap-post{
+    padding: 11px;
+    height:auto;
+}
+#post-landing .m4son .box.selected .snap-post .post{
+  display:block;
+  padding: 11px 12px;
+  background-color: #F7F7F7;
+  border: 1px solid #C3C8BD;
+  border-radius: 5px 5px 5px 5px;
+}";
+  js_url = "data:text/javascript,function snapClicked(event){"
+ + "  if (! $(event.currentTarget).hasClass('selected')){"
+ + "    event.preventDefault();"
+ + "  }"
+ + "  $(event.currentTarget).addClass('tweaked');"
+ + "  $('#post-landing .box').each(function(){"
+ + "    if (this != event.currentTarget){"
+ + "      $(this).removeClass('selected');"
+ + "    }else{"
+ + "      $(this).toggleClass('selected');"
+ + "    }"
+ + "  });"
+ + "  if ($('#post-landing .box.selected').length == 1){"
+ + "    $('#post-landing .clearfix').removeClass('lightbox');"
+ + "    $('#post-landing .clearfix').addClass('lightbox');"
+ + "  } else {"
+ + "    $('#post-landing .clearfix').removeClass('lightbox');"
+ + "  }"
+ + "}"
+ + "function lightBoxClicked(event){"
+ + "  $('#post-landing .clearfix').removeClass('lightbox');"
+ + "  $('#post-landing .box.selected').removeClass('selected');"
+ + "}"
+ + "function attachEvents(){"
+ + "  $('#post-landing .box').unbind();"
+ + "  $('#post-landing .box').click(snapClicked);"
+ + "  $('#post-landing .clearfix').height($('body').height()+300);"
+ + "}"
+ + "function paginationClicked(event){"
+ + "  var url = event.currentTarget.href;"
+ + "  event.preventDefault();"
+ + "  $.get(url, function(data) {"
+ + "    var  rareChar = '¥'"
+ + "        ,itemsPattern = new RegExp("
+ + "            \"<div class=\\\"m4son\\\">([^\"+rareChar+\"]*)<\\/div>[^<]*<div class=\\\"clearfix\\\">\""
+ + "          + \"[^\"+rareChar+\"]*<div class=\\\"pagination\\\">[^<]*<a href=\\\"([^\\\"]*)\\\"\",'gm');"
+ + "    var matches = itemsPattern.exec(data);"
+ + "    if (matches){"
+ + "      $('#post-landing .m4son').append(matches[1]);"
+ + "      $('#post-landing .pagination a').attr('href',matches[2]);"
+ + "      attachEvents();"
+ + "    } else {"
+ + "      console.log('no match');"
+ + "      console.log(itemsPattern.source);"
+ + "    }"
+ + "  });"
+ + "}"
+ + "function init(){"
+ + "  attachEvents();"
+ + "  $('#post-landing .clearfix').click(lightBoxClicked);"
+ + "  $('#post-landing .pagination a').click(paginationClicked);"
+ + "}"
+ + "init();";
+  new_link = document.createElement('link');
+  new_link.rel = 'stylesheet';
+  new_link.href = css_url;
+  document.getElementsByTagName('head')[0].appendChild(new_link);
+  new_script = document.createElement('script');
+  new_script.type = 'text/javascript';
+  new_script.src = js_url;
+  document.body.appendChild(new_script);
+})();</textarea></td>
+        <td><textarea id="minified-bookmarklet">javascript:(function(){var a,b,c,d;a="data:text/css,#content{padding:0;background-image:none;background-color:#222}.container_12{width:100%}#content #main-col{width:690px}#post-landing{margin-top:0}.m4son.masoned{height:auto!important}.box{position:relative!important;left:0!important;top:0!important}.m4son .box{width:226px;height:226px;overflow:hidden;text-align:center;margin:2px}.m4son .box .snap-post{padding:0;width:200%;margin-left:-50%;height:100%}.snap-post .img{height:100%}.snap-post .img img{float:none;max-width:none;min-height:100%;min-width:50%}.post.content{display:none}#post-landing .clearfix{position:absolute}.clearfix.lightbox{background-color:black;height:100%;opacity:.8;top:0;width:100%;z-index:20}.m4son .box.tweaked{transition:left .5s ease-out;-moz-transition:left .5s ease-out;-webkit-transition:left .5s ease-out}.m4son .box.selected{overflow:visible;z-index:21;left:20%!important}.m4son .box.selected.col-2{left:2%!important}.m4son .box.selected.col-3{left:-20%!important}.m4son .box.selected .snap-post{padding:11px;height:auto}#post-landing .m4son .box.selected .snap-post .post{display:block;padding:11px 12px;background-color:#f7f7f7;border:1px solid #c3c8bd;border-radius:5px 5px 5px 5px}",b="data:text/javascript,function e(){c(),$(\"#post-landing .clearfix\").click(b),$(\"#post-landing .pagination a\").click(d)}function d(a){var b=a.currentTarget.href;a.preventDefault(),$.get(b,function(a){var b=\"¥\",d=new RegExp('<div class=\"m4son\">([^'+b+']*)</div>[^<]*<div class=\"clearfix\">'+\"[^\"+b+']*<div class=\"pagination\">[^<]*<a href=\"([^\"]*)\"',\"gm\"),e=d.exec(a);e?($(\"#post-landing .m4son\").append(e[1]),$(\"#post-landing .pagination a\").attr(\"href\",e[2]),c()):(console.log(\"no match\"),console.log(d.source))})}function c(){$(\"#post-landing .box\").unbind(),$(\"#post-landing .box\").click(a),$(\"#post-landing .clearfix\").height($(\"body\").height()+300)}function b(a){$(\"#post-landing .clearfix\").removeClass(\"lightbox\"),$(\"#post-landing .box.selected\").removeClass(\"selected\")}function a(a){$(a.currentTarget).hasClass(\"selected\")||a.preventDefault(),$(a.currentTarget).addClass(\"tweaked\"),$(\"#post-landing .box\").each(function(){this!=a.currentTarget?$(this).removeClass(\"selected\"):$(this).toggleClass(\"selected\")}),$(\"#post-landing .box.selected\").length==1?($(\"#post-landing .clearfix\").removeClass(\"lightbox\"),$(\"#post-landing .clearfix\").addClass(\"lightbox\")):$(\"#post-landing .clearfix\").removeClass(\"lightbox\")}e()",c=document.createElement("link"),c.rel="stylesheet",c.href=a,document.getElementsByTagName("head")[0].appendChild(c),d=document.createElement("script"),d.type="text/javascript",d.src=b,document.body.appendChild(d)})()</textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
